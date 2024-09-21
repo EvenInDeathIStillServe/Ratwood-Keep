@@ -11,8 +11,8 @@
 	outfit = null
 	outfit_female = null
 
-	
-	
+
+
 	display_order = JDO_BANDIT
 	show_in_credits = TRUE
 	min_pq = 0
@@ -29,15 +29,22 @@
 
 	allow_custom_genitals = TRUE //Vrell - This prevents the job itself from culling the parts since advanced classes determine if they are allowed
 
+	cmode_music = 'sound/music/combat_bandit2.ogg'
+
 
 /datum/job/roguetown/bandit/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
 	if(L)
 		var/mob/living/carbon/human/H = L
+		if(!H.mind)
+			return
 		H.advsetup = 1
 		H.invisibility = INVISIBILITY_MAXIMUM
 		H.become_blind("advsetup")
+		H.ambushable = FALSE
 
-		if(GLOB.adventurer_hugbox_duration)
-			///FOR SOME silly FUCKING REASON THIS REFUSED TO WORK WITHOUT A FUCKING TIMER IT JUST FUCKED SHIT UP
-			addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, adv_hugboxing_start)), 1)
+/datum/outfit/job/roguetown/bandit/post_equip(mob/living/carbon/human/H)
+	..()
+	var/datum/antagonist/new_antag = new /datum/antagonist/bandit()
+	H.mind.add_antag_datum(new_antag)
+	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "BANDIT"), 5 SECONDS)

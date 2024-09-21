@@ -630,7 +630,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	GLOB.nukeop_start += loc
 
 /obj/effect/landmark/start/bandit
-	name = "bandit"
+	name = "Bandit"
 	icon = 'icons/mob/landmarks.dmi'
 	icon_state = "arrow"
 
